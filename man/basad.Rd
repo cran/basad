@@ -7,7 +7,7 @@
 \usage{
 basad( x = NULL, y = NULL, K = -1, df = 5, nburn = 1000, niter = 1000,
         alternative = FALSE, verbose = FALSE, nsplit = 20, tau0 = NULL, tau1 = NULL,
-        prior.dist = "Gauss", select.cri = "median" )
+        prior.dist = "Gauss", select.cri = "median", BIC.maxsize = 20)
 }
 \arguments{
 \item{x}{The matrix or data frame of covariates. }
@@ -23,6 +23,7 @@ basad( x = NULL, y = NULL, K = -1, df = 5, nburn = 1000, niter = 1000,
 \item{tau1}{ The scale of the prior distribution for active coefficients (see details below). }
 \item{prior.dist}{Choice of the base distribution for spike and slab priors. If \code{prior.dist="t"}, the algorithm will place Student's t prior for regression coefficients. If \code{prior.dist="Laplace"}, the algorithm will place Laplace prior. Otherwise, it will place the default Gaussian priors. }
 \item{select.cri}{Model selection criteria. If \code{select.cri="median"}, the algorithm will use the median probability model to select the active variables. If \code{ select.cri="BIC"}, the algorithm will use the BIC criteria to select the active variables. }
+\item{BIC.maxsize}{ The amount of the variables that are chosen to apply BIC criteria based on the ranking of their marginal posterior probabilities. If the input sample size is less than the default value 20, all variables will be considered when applying BIC. }
 }
 
 

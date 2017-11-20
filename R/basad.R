@@ -16,7 +16,8 @@ basad <- function(x = NULL,
                   tau0 = NULL,
                   tau1 = NULL,
                   prior.dist = "Gauss",
-                  select.cri = "median"){
+                  select.cri = "median",
+                  BIC.maxsize = 20){
 
 ###--------------------------------
 ###Preproccessing
@@ -83,7 +84,16 @@ basad <- function(x = NULL,
     B0 = rep(0,(p+1))
     Z0 = array(0,(p+1))
     sig = sighat
-	
+    
+    ##########make a proper nsplit in low dimensional cases
+    if( p > 30 )
+        nsplit = nsplit
+    else
+        nsplit = 1
+        
+    if( nsplit > p )
+        stop("Number of splits can not exceed dimensions")
+        
 	cat("Algorithms running:",  "\n" )
 ###---------------------------------
 ###RUN THE CORE
@@ -148,9 +158,16 @@ basad <- function(x = NULL,
     
     modelIdx <- c()
     ####return the results if selection criteria is BIC
+    
+    if( p > BIC.maxsize )
+        BICsize = BIC.maxsize
+    else
+        BICsize = p
+    
     if( select.cri == "BIC" ){
-        bic <- numeric(25)
-        for( i in 1:25 ){
+        print( BICsize )
+        bic <- numeric(BICsize)
+        for( i in 1:BICsize ){
             idx <- Zsort$ix[ 1:i ]
             Bbic <- numeric(p + 1)
             Bbic[idx] <- B[idx]
